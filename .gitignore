@@ -1,0 +1,11 @@
+.gitignore
+/.idea/
+/target/
+/reports/
+/src/main/java/com/qaprosoft/carina/demo/mobile/gui/pages/
+/src/main/java/com/qaprosoft/carina/demo/gui/
+/src/main/java/com/qaprosoft/carina/demo/api/
+/src/main/resources/browserstack/
+/src/main/resources/mappers/
+/src/test/java/com/qaprosoft/carina/demo/
+/src/test/resources/api/
