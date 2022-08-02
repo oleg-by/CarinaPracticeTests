@@ -5,6 +5,7 @@ import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
 import com.qaprosoft.carina.demo.model.User;
 import com.qaprosoft.carina.demo.utils.DataLoader;
 import com.qaprosoft.carina.demo.webautomationpractice.components.FooterMenu;
+import com.qaprosoft.carina.demo.webautomationpractice.components.Header;
 import com.qaprosoft.carina.demo.webautomationpractice.pages.*;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
@@ -17,13 +18,12 @@ public class WebAutomationPracticeTests implements IAbstractTest {
     public void testHomePage() {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isLogoPresent(), "Home page is not opened.");
+        Assert.assertTrue(homePage.isSliderPresent(), "Home page is not opened.");
         FooterMenu footerMenu = homePage.getFooterMenu();
         Assert.assertTrue(footerMenu.isUIObjectPresent(5), "Footer menu wasn't found!");
         Assert.assertTrue(homePage.isCopyrightPresent(), "Copyright is not presented on home page.");
         CategoryPage categoryPage = footerMenu.openCategoryPage();
         Assert.assertTrue(categoryPage.isCategoryNameTitle(), "Category page is not opened.");
-        categoryPage.quitDriver();
     }
 
     @Test(testName = "Check the search engine")
@@ -31,7 +31,7 @@ public class WebAutomationPracticeTests implements IAbstractTest {
     public void testSearchEngine() {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isLogoPresent(), "Home page is not opened.");
+        Assert.assertTrue(homePage.isSliderPresent(), "Home page is not opened.");
         String searchRq = "Printed";
         homePage.typeSearchRq(searchRq);
         //Assert.assertEquals(homePage.getTypedText(), searchRq, "The search term was not entered in the search bar.");
@@ -42,7 +42,6 @@ public class WebAutomationPracticeTests implements IAbstractTest {
                             .containsIgnoreCase(resultPage.getResultProductTitle(i), searchRq),
                     "The title of product doesn't contain the search substring.");
         }
-        resultPage.quitDriver();
     }
 
     @Test(testName = "Register a new account")
@@ -50,8 +49,10 @@ public class WebAutomationPracticeTests implements IAbstractTest {
     public void testSignUp() {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
-        Assert.assertTrue(homePage.isLogoPresent(), "Home page is not opened.");
-        AuthenticationPage authenticationPage = homePage.clickSignInBtn();
+        Assert.assertTrue(homePage.isSliderPresent(), "Home page is not opened.");
+        Header header = homePage.getHeader();
+        Assert.assertTrue(header.isUIObjectPresent(5), "Header wasn't found!");
+        AuthenticationPage authenticationPage = header.clickSignInBtn();
         Assert.assertTrue(authenticationPage.isTitlePresent(), "Authentication page is not opened");
         User user = DataLoader.getRandomUser();
         authenticationPage.typeNewEmail(user.getEmail());
@@ -69,6 +70,39 @@ public class WebAutomationPracticeTests implements IAbstractTest {
         Assert.assertTrue(accountPage.isTitlePresent(), "Account is not created.");
     }
 
+    @Test(testName = "Sign in")
+    @MethodOwner(owner = "oleg-by")
+    public void testSignIn() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isSliderPresent(), "Home page is not opened.");
+        Header header = homePage.getHeader();
+        Assert.assertTrue(header.isUIObjectPresent(5), "Header wasn't found!");
+        AuthenticationPage authenticationPage = header.clickSignInBtn();
+        Assert.assertTrue(authenticationPage.isTitlePresent(), "Authentication page is not opened");
+        authenticationPage.typeEmail("test359@mail.ru");
+        authenticationPage.typePassword("123456789asdf");
+        AccountPage accountPage = authenticationPage.clickSignInBtn();
+        Assert.assertTrue(accountPage.isTitlePresent(), "Sign In is failed.");
+    }
 
-
+    @Test(testName = "Sign out")
+    @MethodOwner(owner = "oleg-by")
+    public void testSignOut() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isSliderPresent(), "Home page is not opened.");
+        Header header = homePage.getHeader();
+        Assert.assertTrue(header.isUIObjectPresent(5), "Header wasn't found!");
+        AuthenticationPage authenticationPage = header.clickSignInBtn();
+        Assert.assertTrue(authenticationPage.isTitlePresent(), "Authentication page is not opened");
+        authenticationPage.typeEmail("test359@mail.ru");
+        authenticationPage.typePassword("123456789asdf");
+        AccountPage accountPage = authenticationPage.clickSignInBtn();
+        Assert.assertTrue(accountPage.isTitlePresent(), "Sign In is failed.");
+        header = accountPage.getHeader();
+        Assert.assertTrue(header.isUIObjectPresent(5), "Header wasn't found!");
+        authenticationPage = header.clickSignOutBtn();
+        Assert.assertTrue(authenticationPage.isTitlePresent(), "Authentication page is not opened");
+    }
 }

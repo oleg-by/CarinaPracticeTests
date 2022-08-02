@@ -3,16 +3,17 @@ package com.qaprosoft.carina.demo.webautomationpractice.pages;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.carina.demo.webautomationpractice.components.FooterMenu;
+import com.qaprosoft.carina.demo.webautomationpractice.components.Header;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 public class HomePage extends AbstractPage {
 
-    @FindBy(xpath = "//*[@id=\"header_logo\"]")
-    private ExtendedWebElement logo;
+    @FindBy(xpath = "//header[@id=\"header\"]")
+    private Header header;
 
-    @FindBy(xpath = "//a[@class=\"login\"]")
-    private ExtendedWebElement signInBtn;
+    @FindBy(xpath = "//div[@id=\"slider_row\"]")
+    private ExtendedWebElement slider;
 
     @FindBy(xpath = "//input[@id=\"search_query_top\"]")
     private ExtendedWebElement searchBar;
@@ -34,13 +35,12 @@ public class HomePage extends AbstractPage {
         return footerMenu;
     }
 
-    public boolean isLogoPresent(){
-        return logo.isElementPresent();
+    public Header getHeader() {
+        return header;
     }
 
-    public AuthenticationPage clickSignInBtn(){
-        signInBtn.click();
-        return new AuthenticationPage(getDriver());
+    public boolean isSliderPresent() {
+        return slider.isElementPresent();
     }
 
     public boolean isCopyrightPresent(){
