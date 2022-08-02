@@ -1,11 +1,11 @@
 package com.qaprosoft.carina.demo.webautomationpractice.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.qaprosoft.carina.core.gui.AbstractPage;
+import com.qaprosoft.carina.demo.webautomationpractice.AutomationPracticePageBase;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class CreateAccountPage extends AbstractPage {
+public class CreateAccountPage extends AutomationPracticePageBase {
 
     @FindBy(xpath = "//h1[text()=\"Create an account\"]")
     private ExtendedWebElement title;
@@ -44,6 +44,11 @@ public class CreateAccountPage extends AbstractPage {
         super(driver);
     }
 
+    @Override
+    public boolean isOpened() {
+        return title.isElementPresent();
+    }
+
     public void clickGender(int g){
         gender.format(String.valueOf(g)).click();
     }
@@ -80,8 +85,8 @@ public class CreateAccountPage extends AbstractPage {
         mobilePhone.type(phone);
     }
 
-    public AccountPage clickRegisterBtn(){
+    public MyAccountPage clickRegisterBtn(){
         registerBtn.click();
-        return new AccountPage(getDriver());
+        return new MyAccountPage(getDriver());
     }
 }

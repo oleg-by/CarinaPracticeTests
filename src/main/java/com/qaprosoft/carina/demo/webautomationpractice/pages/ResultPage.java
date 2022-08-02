@@ -1,32 +1,42 @@
 package com.qaprosoft.carina.demo.webautomationpractice.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.qaprosoft.carina.core.gui.AbstractPage;
+import com.qaprosoft.carina.demo.webautomationpractice.AutomationPracticePageBase;
+import com.qaprosoft.carina.demo.webautomationpractice.components.ProductContainer;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class ResultPage extends AbstractPage {
+import java.util.List;
+
+public class ResultPage extends AutomationPracticePageBase {
 
     @FindBy(xpath = "//span[@class=\"heading-counter\"]")
     private ExtendedWebElement resultsCounter;
 
-    @FindBy(xpath = "//*[@id=\"center_column\"]/ul/li[%S]/div/div[2]/h5/a")
-    private ExtendedWebElement someResultProduct;
+    @FindBy(xpath = "//ul[@class=\"product_list grid row\"]")
+    private List<ProductContainer> resultProducts;
 
     public ResultPage(WebDriver driver) {
         super(driver);
     }
 
-    public boolean isCounterPresent(){
+    @Override
+    public boolean isOpened() {
         return resultsCounter.isElementPresent();
     }
 
-    public int countResults(){
+    public int getProductCount(){
         return Integer.parseInt(resultsCounter.getText().replaceAll("\\D", ""));
     }
 
     public String getResultProductTitle(int i){
-        return someResultProduct.format(String.valueOf(i)).getText();
+        return resultProducts.get(i).getSomeProductName(i).getText();
     }
+
+//    public void initList(){
+//        List<WebElement> elements = getDriver().findElements(By.xpath("//*[@class=\"product-container\"]"));
+//    }
+
+
 
 }

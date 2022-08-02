@@ -1,11 +1,11 @@
 package com.qaprosoft.carina.demo.webautomationpractice.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.qaprosoft.carina.core.gui.AbstractPage;
+import com.qaprosoft.carina.demo.webautomationpractice.AutomationPracticePageBase;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class AuthenticationPage extends AbstractPage {
+public class AuthenticationPage extends AutomationPracticePageBase {
 
     @FindBy(xpath = "//*[@id=\"center_column\"]")
     private ExtendedWebElement title;
@@ -17,7 +17,7 @@ public class AuthenticationPage extends AbstractPage {
     private ExtendedWebElement emailField;
 
     @FindBy(xpath = "//input[@id=\"passwd\"]")
-    private ExtendedWebElement password;
+    private ExtendedWebElement passwordField;
 
     @FindBy(xpath = "//button[@id=\"SubmitCreate\"]")
     private ExtendedWebElement createAccountBtn;
@@ -29,30 +29,31 @@ public class AuthenticationPage extends AbstractPage {
         super(driver);
     }
 
-    public boolean isTitlePresent(){
+    @Override
+    public boolean isOpened() {
         return title.isElementPresent();
     }
 
-    public void typeNewEmail(String email){
+    public void typeNewEmail(String email) {
         emailCreateField.type(email);
     }
 
-    public CreateAccountPage clickCreateBtn(){
+    public CreateAccountPage clickCreateBtn() {
         createAccountBtn.click();
         return new CreateAccountPage(getDriver());
     }
 
-    public void typeEmail(String email){
+    public void typeEmail(String email) {
         emailField.type(email);
     }
 
-    public void typePassword(String pass){
-        password.type(pass);
+    public void typePassword(String pass) {
+        passwordField.type(pass);
     }
 
-    public AccountPage clickSignInBtn(){
+    public MyAccountPage clickSignInBtn() {
         signInBtn.click();
-        return new AccountPage(getDriver());
+        return new MyAccountPage(getDriver());
     }
 
 }

@@ -10,11 +10,10 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class DataLoader {
-
     public static User getRandomUser() {
         User user = new User();
         user.setEmail("test" + RandomUtils.nextInt(100, 999) + "@mail.ru");
-        user.setGender(RandomUtils.nextInt(1,2));
+        user.setGender(RandomUtils.nextInt(1, 2));
         user.setFirstname(RandomStringUtils.randomAlphabetic(10));
         user.setLastname(RandomStringUtils.randomAlphabetic(10));
         user.setPassword("123456789asdf");
