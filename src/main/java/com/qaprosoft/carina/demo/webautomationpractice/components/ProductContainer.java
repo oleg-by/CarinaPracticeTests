@@ -8,21 +8,21 @@ import org.openqa.selenium.support.FindBy;
 
 public class ProductContainer extends AbstractUIObject {
 
-    @FindBy(xpath = "(//*[@class=\"product-container\"])[%s]")
-    private ExtendedWebElement someProduct;
-
-    @FindBy(xpath = "(//h5[@itemprop=\"name\"]//a[@class=\"product-name\"])[%s]")
-    private ExtendedWebElement someProductName;
+    @FindBy(xpath = "//h5[@itemprop=\"name\"]//a[@class=\"product-name\"]")
+    private ExtendedWebElement productName;
 
     public ProductContainer(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
 
-    public ExtendedWebElement getSomeProduct(int i) {
-        return someProduct.format(String.valueOf(i));
+    public String getProductName() {
+        return productName.getText();
     }
 
-    public ExtendedWebElement getSomeProductName(int i) {
-        return someProductName.format(String.valueOf(i));
+    @Override
+    public String toString() {
+        return "ProductContainer{" +
+                "productName=" + productName.getText() +
+                '}';
     }
 }

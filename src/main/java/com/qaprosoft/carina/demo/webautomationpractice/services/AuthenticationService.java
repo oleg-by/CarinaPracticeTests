@@ -17,9 +17,17 @@ public class AuthenticationService implements IDriverPool {
 
     private final static String PASSWORD = R.TESTDATA.get("password");
 
-    User user = DataLoader.getRandomUser();
+    private User randomUser = DataLoader.getRandomUser();
+
+    public User getRandomUser() {
+        return randomUser;
+    }
 
     public MyAccountPage register() {
+        return register(randomUser);
+    }
+
+    public MyAccountPage register(User user) {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isOpened(), "Home page is not opened.");
@@ -43,6 +51,10 @@ public class AuthenticationService implements IDriverPool {
     }
 
     public MyAccountPage login() {
+        return login(USERNAME, PASSWORD);
+    }
+
+    public MyAccountPage login(String username, String password) {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isOpened(), "Home page is not opened.");
@@ -50,8 +62,8 @@ public class AuthenticationService implements IDriverPool {
         Assert.assertTrue(header.isUIObjectPresent(5), "Header wasn't found!");
         AuthenticationPage authenticationPage = header.clickSignInBtn();
         Assert.assertTrue(authenticationPage.isOpened(), "Authentication page is not opened");
-        authenticationPage.typeEmail(USERNAME);
-        authenticationPage.typePassword(PASSWORD);
+        authenticationPage.typeEmail(username);
+        authenticationPage.typePassword(password);
         return authenticationPage.clickSignInBtn();
     }
 

@@ -17,6 +17,9 @@ public class HeaderMenu extends AbstractUIObject {
     @FindBy(xpath = "//a[@class=\"login\"]")
     private ExtendedWebElement signInBtn;
 
+    @FindBy(xpath = "//div[@class=\"header_user_info\"]//a[@class=\"account\"]")
+    private ExtendedWebElement usernameDisplayed;
+
     @FindBy(xpath = "//*[@id=\"header_logo\"]")
     private ExtendedWebElement logo;
 
@@ -44,13 +47,21 @@ public class HeaderMenu extends AbstractUIObject {
         } else throw new NoSuchElementException("Sign out button is not presented on page.");
     }
 
-    public void typeSearchRq(String text){
+    public void typeSearchRq(String text) {
         searchBar.type(text);
     }
 
-    public ResultPage clickSearchBtn(){
+    public ResultPage clickSearchBtn() {
         searchBtn.click();
         return new ResultPage(getDriver());
+    }
+
+    public String getDisplayedUsername() {
+        return usernameDisplayed.getText();
+    }
+
+    public boolean isUsernameDisplayed() {
+        return usernameDisplayed.isElementPresent();
     }
 
 }

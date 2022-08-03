@@ -6,7 +6,6 @@ import com.qaprosoft.carina.demo.webautomationpractice.AutomationPracticePageBas
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = AutomationPracticePageBase.class)
 public class CategoryPage extends AutomationPracticePageBase {
 
     @FindBy(xpath = "//span[@class=\"category-name\"]")

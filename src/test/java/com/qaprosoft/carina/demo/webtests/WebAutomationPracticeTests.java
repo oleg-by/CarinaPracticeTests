@@ -20,9 +20,11 @@ public class WebAutomationPracticeTests extends BaseTest {
         FooterMenu footer = homePage.getFooter();
         Assert.assertTrue(footer.isUIObjectPresent(5), "Footer menu wasn't found!");
         Assert.assertTrue(footer.isOpened(), "Copyright is not presented on home page.");
-        CategoryPage categoryPage = (CategoryPage) footer.clickCategoriesLink(Categories.WOMEN);
+        footer.clickCategoriesLink(Categories.WOMEN);
+        CategoryPage categoryPage = new CategoryPage(getDriver());
         Assert.assertTrue(categoryPage.isOpened(), "Category page is not opened.");
-        Assert.assertTrue(categoryPage.isCategoryCorrect(Categories.WOMEN.getCategory()), "Category is not correct.");
+        Assert.assertTrue(categoryPage.isCategoryCorrect(Categories.WOMEN.getCategory()),
+                "Category is not correct.");
     }
 
     @Test(testName = "Check the search engine")
@@ -36,9 +38,9 @@ public class WebAutomationPracticeTests extends BaseTest {
         header.typeSearchRq(searchRq);
         ResultPage resultPage = header.clickSearchBtn();
         Assert.assertTrue(resultPage.isOpened(), "Result page is not opened.");
-        for (int i = 1; i <= resultPage.getProductCount(); i++) {
+        for (String title : resultPage.getResultProductTitles()) {
             Assert.assertTrue(StringUtils
-                            .containsIgnoreCase(resultPage.getResultProductTitle(i), searchRq),
+                            .containsIgnoreCase(title, searchRq),
                     "The title of product doesn't contain the search substring.");
         }
     }
@@ -48,6 +50,11 @@ public class WebAutomationPracticeTests extends BaseTest {
     public void testSignUp() {
         MyAccountPage myAccountPage = authenticationService.register();
         Assert.assertTrue(myAccountPage.isOpened(), "Account is not created.");
+        HeaderMenu header = myAccountPage.getHeader();
+        String username = authenticationService.getRandomUser().getFirstname() + " "
+                + authenticationService.getRandomUser().getLastname();
+        Assert.assertEquals(header.getDisplayedUsername(), username,
+                "The username displayed on the page does not match the registered user.");
     }
 
     @Test(testName = "Sign in")
@@ -66,5 +73,6 @@ public class WebAutomationPracticeTests extends BaseTest {
         Assert.assertTrue(header.isUIObjectPresent(5), "Header wasn't found!");
         AuthenticationPage authenticationPage = header.clickSignOutBtn();
         Assert.assertTrue(authenticationPage.isOpened(), "Authentication page is not opened");
+        Assert.assertFalse(header.isUsernameDisplayed(), "The user has not logged out.");
     }
 }

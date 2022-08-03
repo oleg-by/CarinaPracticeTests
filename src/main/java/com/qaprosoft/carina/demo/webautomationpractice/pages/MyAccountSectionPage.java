@@ -5,12 +5,12 @@ import com.qaprosoft.carina.demo.webautomationpractice.AutomationPracticePageBas
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class MyAccountPage extends AutomationPracticePageBase {
+public abstract class MyAccountSectionPage extends AutomationPracticePageBase {
 
-    @FindBy(xpath = "//h1[@class=\"page-heading\"]")
+    @FindBy(xpath = "//div[@id=\"center_column\"]/h1")
     private ExtendedWebElement title;
 
-    public MyAccountPage(WebDriver driver) {
+    public MyAccountSectionPage(WebDriver driver) {
         super(driver);
     }
 

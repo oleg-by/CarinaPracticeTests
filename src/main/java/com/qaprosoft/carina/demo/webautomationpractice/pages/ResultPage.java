@@ -5,15 +5,21 @@ import com.qaprosoft.carina.demo.webautomationpractice.AutomationPracticePageBas
 import com.qaprosoft.carina.demo.webautomationpractice.components.ProductContainer;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResultPage extends AutomationPracticePageBase {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
     @FindBy(xpath = "//span[@class=\"heading-counter\"]")
     private ExtendedWebElement resultsCounter;
 
-    @FindBy(xpath = "//ul[@class=\"product_list grid row\"]")
+    @FindBy(xpath = "//*[@class=\"product-container\"]")
     private List<ProductContainer> resultProducts;
 
     public ResultPage(WebDriver driver) {
@@ -22,21 +28,24 @@ public class ResultPage extends AutomationPracticePageBase {
 
     @Override
     public boolean isOpened() {
+        LOGGER.info(getNumberOfProductFound() + " results have been found.");
         return resultsCounter.isElementPresent();
     }
 
-    public int getProductCount(){
-        return Integer.parseInt(resultsCounter.getText().replaceAll("\\D", ""));
+    public int getNumberOfProductFound() {
+        return resultProducts.size();
     }
 
-    public String getResultProductTitle(int i){
-        return resultProducts.get(i).getSomeProductName(i).getText();
+    public List<String> getResultProductTitles() {
+        List<String> productTitles = new ArrayList<>();
+        for (ProductContainer productContainer : resultProducts) {
+            productTitles.add(productContainer.getProductName());
+        }
+        LOGGER.info("The list of product found: " + productTitles + ".");
+        return productTitles;
     }
 
-//    public void initList(){
-//        List<WebElement> elements = getDriver().findElements(By.xpath("//*[@class=\"product-container\"]"));
-//    }
-
-
-
+    public List<ProductContainer> getResultProducts() {
+        return resultProducts;
+    }
 }
