@@ -7,6 +7,9 @@ import org.openqa.selenium.support.FindBy;
 
 public class HomePage extends AutomationPracticePageBase {
 
+    @FindBy(xpath = "//p[@class=\"alert alert-%s\"]")
+    private ExtendedWebElement alert;
+
     @FindBy(xpath = "//div[@id=\"slider_row\"]")
     private ExtendedWebElement slider;
 
@@ -17,6 +20,10 @@ public class HomePage extends AutomationPracticePageBase {
     @Override
     public boolean isOpened() {
         return slider.isElementPresent();
+    }
+
+    public String getTextAlert(String message) {
+        return alert.format(message).getText();
     }
 
 }

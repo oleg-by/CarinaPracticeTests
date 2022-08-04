@@ -11,6 +11,12 @@ import org.openqa.selenium.support.FindBy;
 
 public class FooterMenu extends AbstractPage {
 
+    @FindBy(xpath = "//input[@id=\"newsletter-input\"]")
+    private ExtendedWebElement newsletterEmail;
+
+    @FindBy(xpath = "//button[@name=\"submitNewsletter\"]")
+    private ExtendedWebElement submitNewsletterBtn;
+
     @FindBy(xpath = "//div[contains(@class,'category_footer')]//a[contains(text(),'%s')]")
     private ExtendedWebElement categoriesLink;
 
@@ -42,4 +48,18 @@ public class FooterMenu extends AbstractPage {
     public void clickMyAccountLink(MyAccountLink item) {
         myAccountLink.format(item.getAccountLink()).click();
     }
+
+    public void typeEmail(String email){
+        newsletterEmail.type(email);
+    }
+
+    public void clickSubmitBtn(){
+        submitNewsletterBtn.click();
+    }
+
+    public String getTextFromNewsletterField(){
+        return newsletterEmail.getAttribute("value");
+    }
+
+
 }

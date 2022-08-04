@@ -86,7 +86,6 @@ public class WebAutomationPracticeTests extends BaseTest {
         Assert.assertTrue(homePage.isOpened(), "Home page is not opened.");
         FooterMenu footer = homePage.getFooter();
         Assert.assertTrue(footer.isUIObjectPresent(5), "Footer menu wasn't found!");
-        Assert.assertTrue(footer.isOpened(), "Copyright is not presented on home page.");
         footer.clickInformationLink(InfoLink.CONTACT_US);
         ContactUsPage contactUsPage = new ContactUsPage(getDriver());
         Assert.assertTrue(contactUsPage.isOpened(), "Contact Us page is not opened.");
@@ -113,11 +112,40 @@ public class WebAutomationPracticeTests extends BaseTest {
         contactUsPage.selectSubjectHeading(RandomUtils.nextInt(1, 2));
         contactUsPage.typeEmail(authenticationService.getRandomUser().getEmail());
         contactUsPage.typeOrderRef(RandomUtils.nextInt());
-        contactUsPage.attachFile(System.getProperty("user.dir") + "/src/main/resources/images/empty_drawing_field.png");
+        contactUsPage.attachFile(System.getProperty("user.dir") +
+                "/src/main/resources/images/empty_drawing_field.png");
         contactUsPage.enterMessage("Achtung!");
         contactUsPage.clickSendBtn();
         Assert.assertEquals(contactUsPage.getTextAlert(),
                 "Your message has been successfully sent to our team.",
                 "The message has not been successfully sent.");
     }
+
+    @Test(testName = "Subscribing to newsletter")
+    @MethodOwner(owner = "oleg-by")
+    public void testNewsletterSubscribing() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isOpened(), "Home page is not opened.");
+        FooterMenu footer = homePage.getFooter();
+        Assert.assertTrue(footer.isUIObjectPresent(5), "Footer menu wasn't found!");
+        String testEmail = authenticationService.getRandomUser().getEmail();
+        footer.typeEmail(testEmail);
+        footer.clickSubmitBtn();
+        Assert.assertEquals(homePage.getTextAlert("success"),
+                "Newsletter : You have successfully subscribed to this newsletter.",
+                "You have not successfully subscribed to this newsletter.");
+        Assert.assertEquals(footer.getTextFromNewsletterField(),
+                "You have successfully subscribed to this newsletter.",
+                "You have not successfully subscribed to this newsletter.");
+        footer.typeEmail(testEmail);
+        footer.clickSubmitBtn();
+        Assert.assertEquals(homePage.getTextAlert("danger"),
+                "Newsletter : This email address is already registered.",
+                "You can use the same emails to subscribe to this newsletter.");
+        Assert.assertEquals(footer.getTextFromNewsletterField(),
+                "This email address is already registered.",
+                "You can use the same emails to subscribe to this newsletter.");
+    }
+
 }
