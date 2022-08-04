@@ -1,6 +1,7 @@
 package com.qaprosoft.carina.demo.enums;
 
 import com.qaprosoft.carina.demo.webautomationpractice.AutomationPracticePageBase;
+import com.qaprosoft.carina.demo.webautomationpractice.pages.ContactUsPage;
 import com.qaprosoft.carina.demo.webautomationpractice.pages.InformationPageBase;
 
 public enum InfoLink {
@@ -9,7 +10,7 @@ public enum InfoLink {
     NEW_PRODUCTS("New products", InformationPageBase.class),
     BEST_SELLERS("Best sellers", InformationPageBase.class),
     OUR_STORES("Our stores", InformationPageBase.class),
-    CONTACT_US("Contact us", InformationPageBase.class),
+    CONTACT_US("Contact us", ContactUsPage.class),
     TERMS("Terms and conditions of use", InformationPageBase.class),
     ABOUT_US("About us", InformationPageBase.class),
     SITEMAP("Sitemap", InformationPageBase.class);

@@ -3,6 +3,7 @@ package com.qaprosoft.carina.demo.webautomationpractice.components;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import com.qaprosoft.carina.demo.webautomationpractice.pages.AuthenticationPage;
+import com.qaprosoft.carina.demo.webautomationpractice.pages.ContactUsPage;
 import com.qaprosoft.carina.demo.webautomationpractice.pages.ResultPage;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
@@ -10,6 +11,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 public class HeaderMenu extends AbstractUIObject {
+
+    @FindBy(xpath = "//a[@title=\"Contact Us\"]")
+    private ExtendedWebElement contactUsBtn;
 
     @FindBy(xpath = "//a[@class=\"logout\"]")
     private ExtendedWebElement signOutBtn;
@@ -62,6 +66,11 @@ public class HeaderMenu extends AbstractUIObject {
 
     public boolean isUsernameDisplayed() {
         return usernameDisplayed.isElementPresent();
+    }
+
+    public ContactUsPage clickContactBtn(){
+        contactUsBtn.click();
+        return new ContactUsPage(getDriver());
     }
 
 }

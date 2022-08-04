@@ -2,9 +2,11 @@ package com.qaprosoft.carina.demo.webtests;
 
 import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
 import com.qaprosoft.carina.demo.enums.Categories;
+import com.qaprosoft.carina.demo.enums.InfoLink;
 import com.qaprosoft.carina.demo.webautomationpractice.components.FooterMenu;
 import com.qaprosoft.carina.demo.webautomationpractice.components.HeaderMenu;
 import com.qaprosoft.carina.demo.webautomationpractice.pages.*;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -74,5 +76,48 @@ public class WebAutomationPracticeTests extends BaseTest {
         AuthenticationPage authenticationPage = header.clickSignOutBtn();
         Assert.assertTrue(authenticationPage.isOpened(), "Authentication page is not opened");
         Assert.assertFalse(header.isUsernameDisplayed(), "The user has not logged out.");
+    }
+
+    @Test(testName = "Contact us")
+    @MethodOwner(owner = "oleg-by")
+    public void testContactUs() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isOpened(), "Home page is not opened.");
+        FooterMenu footer = homePage.getFooter();
+        Assert.assertTrue(footer.isUIObjectPresent(5), "Footer menu wasn't found!");
+        Assert.assertTrue(footer.isOpened(), "Copyright is not presented on home page.");
+        footer.clickInformationLink(InfoLink.CONTACT_US);
+        ContactUsPage contactUsPage = new ContactUsPage(getDriver());
+        Assert.assertTrue(contactUsPage.isOpened(), "Contact Us page is not opened.");
+        contactUsPage.selectSubjectHeading(RandomUtils.nextInt(1, 2));
+        contactUsPage.typeEmail(authenticationService.getRandomUser().getEmail());
+        contactUsPage.typeOrderRef(RandomUtils.nextInt());
+        contactUsPage.enterMessage("Achtung!");
+        contactUsPage.clickSendBtn();
+        Assert.assertEquals(contactUsPage.getTextAlert(),
+                "Your message has been successfully sent to our team.",
+                "The message has not been successfully sent.");
+    }
+
+    @Test(testName = "Contact us with attaching file")
+    @MethodOwner(owner = "oleg-by")
+    public void testContactUsWithAttaching() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isOpened(), "Home page is not opened.");
+        HeaderMenu header = homePage.getHeader();
+        Assert.assertTrue(header.isUIObjectPresent(5), "Header wasn't found!");
+        ContactUsPage contactUsPage = header.clickContactBtn();
+        Assert.assertTrue(contactUsPage.isOpened(), "Contact Us page is not opened.");
+        contactUsPage.selectSubjectHeading(RandomUtils.nextInt(1, 2));
+        contactUsPage.typeEmail(authenticationService.getRandomUser().getEmail());
+        contactUsPage.typeOrderRef(RandomUtils.nextInt());
+        contactUsPage.attachFile(System.getProperty("user.dir") + "/src/main/resources/images/empty_drawing_field.png");
+        contactUsPage.enterMessage("Achtung!");
+        contactUsPage.clickSendBtn();
+        Assert.assertEquals(contactUsPage.getTextAlert(),
+                "Your message has been successfully sent to our team.",
+                "The message has not been successfully sent.");
     }
 }

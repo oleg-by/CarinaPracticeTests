@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class ProductContainer extends AbstractUIObject {
 
-    @FindBy(xpath = "//h5[@itemprop=\"name\"]//a[@class=\"product-name\"]")
+    @FindBy(xpath = ".//a[@class=\"product-name\"]")
     private ExtendedWebElement productName;
 
     public ProductContainer(WebDriver driver, SearchContext searchContext) {
