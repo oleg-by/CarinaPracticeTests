@@ -3,6 +3,7 @@ package com.qaprosoft.carina.demo.webtests;
 import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
 import com.qaprosoft.carina.demo.enums.Categories;
 import com.qaprosoft.carina.demo.enums.InfoLink;
+import com.qaprosoft.carina.demo.model.Product;
 import com.qaprosoft.carina.demo.webautomationpractice.components.FooterMenu;
 import com.qaprosoft.carina.demo.webautomationpractice.components.HeaderMenu;
 import com.qaprosoft.carina.demo.webautomationpractice.pages.*;
@@ -10,6 +11,9 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class WebAutomationPracticeTests extends BaseTest {
 
@@ -150,7 +154,7 @@ public class WebAutomationPracticeTests extends BaseTest {
 
     @Test(testName = "Adding product to cart")
     @MethodOwner(owner = "oleg-by")
-    public void testAddingToCart() {
+    public void testAddingProductToCart() {
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isOpened(), "Home page is not opened.");
@@ -159,7 +163,7 @@ public class WebAutomationPracticeTests extends BaseTest {
         footer.clickCategoriesLink(Categories.WOMEN);
         CategoryPage categoryPage = new CategoryPage(getDriver());
         Assert.assertTrue(categoryPage.isOpened(), "Category page is not opened.");
-        int n = RandomUtils.nextInt(0, categoryPage.getProducts().size()-1);
+        int n = RandomUtils.nextInt(0, categoryPage.getProducts().size() - 1);
         String randomProductName = categoryPage.getProducts().get(n).getProductName();
         String randomProductPrice = categoryPage.getProducts().get(n).getProductPrice();
         ProductAddedPopUpPage popUpPage = categoryPage.getProducts().get(n).clickAddToCartBtn();
@@ -172,5 +176,63 @@ public class WebAutomationPracticeTests extends BaseTest {
                 "The information about added product is displayed incorrectly.");
         Assert.assertEquals(popUpPage.getNumberOfItems(), 1,
                 "The information about added product is displayed incorrectly.");
+    }
+
+    @Test(testName = "Adding products to cart (several products)")
+    @MethodOwner(owner = "oleg-by")
+    public void testAddingProductsToCart() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isOpened(), "Home page is not opened.");
+        FooterMenu footer = homePage.getFooter();
+        Assert.assertTrue(footer.isUIObjectPresent(5), "Footer menu wasn't found!");
+        footer.clickCategoriesLink(Categories.WOMEN);
+        CategoryPage categoryPage = new CategoryPage(getDriver());
+        Assert.assertTrue(categoryPage.isOpened(), "Category page is not opened.");
+        int maxIndex = categoryPage.getProducts().size();
+        int randomNumberOfProducts = RandomUtils.nextInt(2, maxIndex - 1);
+        Set<Integer> indexesSet = new TreeSet<>();
+        int i = 0;
+        while (i < randomNumberOfProducts) {
+            int randomIndex = RandomUtils.nextInt(0, maxIndex);
+            if (indexesSet.add(randomIndex)) {
+                i++;
+            }
+        }
+        List<Integer> indexes = new ArrayList<>(indexesSet);
+        System.out.println("List of indexes: " + indexes + ". Number of random products: " + randomNumberOfProducts);
+        List<Product> products = new ArrayList<>();
+        CartPage cartPage = null;
+        int n = 1;
+        for (Integer index : indexes) {
+            String someProductName = categoryPage.getProducts().get(index).getProductName();
+            String someProductPrice = categoryPage.getProducts().get(index).getProductPrice();
+            System.out.println(n + ". " + someProductName + " - " + someProductPrice + ".");
+            ProductAddedPopUpPage popUpPage = categoryPage.getProducts().get(index).clickAddToCartBtn();
+            Assert.assertTrue(popUpPage.isOpened(), "Pop Up page is not opened.");
+            products.add(new Product(someProductName, someProductPrice));
+            if (n < randomNumberOfProducts) {
+                popUpPage.clickContinueBtn();
+                n++;
+            } else {
+                cartPage = popUpPage.clickProceedBtn();
+            }
+        }
+        Assert.assertTrue(cartPage.isOpened(), "Cart page is not opened.");
+        Assert.assertEquals(cartPage.getSummaryProductsQuantity(),
+                randomNumberOfProducts, "The quantity of added products is wrong.");
+        double sum = 0;
+        double totalPrice = cartPage.getTotalProductsPrice();
+        int j = 0;
+        for(Product product : products){
+            Assert.assertEquals(cartPage.getProducts().get(j).getProductName(),
+                    product.getName(), "The name of added product is wrong.");
+            String subPrice = StringUtils.substringBefore(cartPage.getProducts().get(j).getProductPrice()," ");
+            Assert.assertEquals(subPrice, product.getPrice(), "The price of added product is wrong.");
+            sum += Double.parseDouble(StringUtils.substring(product.getPrice(), 1));
+            //cartPage.getProducts().get(j).clickDeleteBtn();
+            j++;
+        }
+        Assert.assertEquals(totalPrice, sum, "The total product price is wrong.");
     }
 }

@@ -38,7 +38,7 @@ public class ProductAddedPopUpPage extends AbstractUIObject {
     }
 
     public int getNumberOfItems(){
-        return Integer.parseInt(numberOfItems.getText().replaceAll("[^0-9]", ""));
+        return Integer.parseInt(numberOfItems.getText().replaceAll("\\D", ""));
     }
 
     public String getProductTitle(){
