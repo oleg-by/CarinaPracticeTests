@@ -148,4 +148,29 @@ public class WebAutomationPracticeTests extends BaseTest {
                 "You can use the same emails to subscribe to this newsletter.");
     }
 
+    @Test(testName = "Adding product to cart")
+    @MethodOwner(owner = "oleg-by")
+    public void testAddingToCart() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isOpened(), "Home page is not opened.");
+        FooterMenu footer = homePage.getFooter();
+        Assert.assertTrue(footer.isUIObjectPresent(5), "Footer menu wasn't found!");
+        footer.clickCategoriesLink(Categories.WOMEN);
+        CategoryPage categoryPage = new CategoryPage(getDriver());
+        Assert.assertTrue(categoryPage.isOpened(), "Category page is not opened.");
+        int n = RandomUtils.nextInt(0, categoryPage.getProducts().size()-1);
+        String randomProductName = categoryPage.getProducts().get(n).getProductName();
+        String randomProductPrice = categoryPage.getProducts().get(n).getProductPrice();
+        ProductAddedPopUpPage popUpPage = categoryPage.getProducts().get(n).clickAddToCartBtn();
+        Assert.assertTrue(popUpPage.isOpened(), "Pop Up page is not opened.");
+        Assert.assertEquals(popUpPage.getSuccessTitle(), "Product successfully added to your shopping cart",
+                "The information about added product is displayed incorrectly.");
+        Assert.assertEquals(popUpPage.getProductTitle(), randomProductName,
+                "The information about added product is displayed incorrectly.");
+        Assert.assertEquals(popUpPage.getProductPrice(), randomProductPrice,
+                "The information about added product is displayed incorrectly.");
+        Assert.assertEquals(popUpPage.getNumberOfItems(), 1,
+                "The information about added product is displayed incorrectly.");
+    }
 }

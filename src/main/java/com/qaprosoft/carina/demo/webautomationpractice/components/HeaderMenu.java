@@ -33,6 +33,9 @@ public class HeaderMenu extends AbstractUIObject {
     @FindBy(xpath = "//button[@name=\"submit_search\"]")
     private ExtendedWebElement searchBtn;
 
+    @FindBy(xpath = "//a[@title=\"View my shopping cart\"]")
+    private ExtendedWebElement cartBtn;
+
     public HeaderMenu(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -72,5 +75,6 @@ public class HeaderMenu extends AbstractUIObject {
         contactUsBtn.click();
         return new ContactUsPage(getDriver());
     }
+
 
 }

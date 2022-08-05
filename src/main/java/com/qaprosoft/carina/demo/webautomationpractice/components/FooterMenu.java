@@ -61,5 +61,9 @@ public class FooterMenu extends AbstractPage {
         return newsletterEmail.getAttribute("value");
     }
 
+    public void scrollToCopyright(){
+        copyright.scrollTo();
+    }
+
 
 }
