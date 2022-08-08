@@ -1,0 +1,8 @@
+{
+ "id": 1,
+ <#if title??>"title": "${title}",</#if>
+ <#if price??>"price": "${price}",</#if>
+ <#if description??>"description": "${description}",</#if>
+ <#if category??>"category": "${category}",</#if>
+ <#if image??>"image": "${image}"</#if>
+}

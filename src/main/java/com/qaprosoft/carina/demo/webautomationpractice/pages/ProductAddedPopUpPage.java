@@ -7,10 +7,10 @@ import org.openqa.selenium.support.FindBy;
 
 public class ProductAddedPopUpPage extends AbstractUIObject {
 
-    @FindBy(xpath = "//div[@id=\"layer_cart\"]//*[@class=\"clearfix\"]//div[@class=\"layer_cart_product col-xs-12 col-md-6\"]//h2")
+    @FindBy(xpath = "//div[contains(@class,\"layer_cart_product\")]//h2")
     private ExtendedWebElement successTitle;
 
-    @FindBy(xpath = "//div[@id=\"layer_cart\"]//*[@class=\"clearfix\"]//div[@class=\"layer_cart_cart col-xs-12 col-md-6\"]//h2")
+    @FindBy(xpath = "//div[contains(@class,\"layer_cart_cart\")]//h2")
     private ExtendedWebElement numberOfItems;
 
     @FindBy(xpath = "//*[@id=\"layer_cart_product_title\"]")

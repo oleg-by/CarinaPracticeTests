@@ -17,7 +17,7 @@ public class CartContainer extends AbstractUIObject {
     @FindBy(xpath = ".//a[@title=\"Delete\"]")
     private ExtendedWebElement deleteBtn;
 
-    @FindBy(xpath = ".//input[@class=\"cart_quantity_input form-control grey\"]")
+    @FindBy(xpath = ".//input[contains(@class,\"cart_quantity_input\")]")
     private ExtendedWebElement quantity;
 
     public CartContainer(WebDriver driver, SearchContext searchContext) {

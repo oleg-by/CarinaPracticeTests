@@ -229,7 +229,7 @@ public class WebAutomationPracticeTests extends BaseTest {
         Assert.assertEquals(cartPage.getSummaryProductsQuantity(),
                 randomNumberOfProducts, "The quantity of added products is wrong.");
         double sum = 0;
-        double totalPrice = cartPage.getTotalProductsPrice();
+        String totalPrice = String.format("%.2f", cartPage.getTotalProductsPrice());
         int j = 0;
         for(Product product : products){
             Assert.assertEquals(cartPage.getProducts().get(j).getProductName(),
@@ -239,6 +239,7 @@ public class WebAutomationPracticeTests extends BaseTest {
             sum += Double.parseDouble(StringUtils.substring(product.getPrice(), 1));
             j++;
         }
-        Assert.assertEquals(totalPrice, sum, "The total product price is wrong.");
+        String resultSum = String.format("%.2f", sum);
+        Assert.assertEquals(totalPrice, resultSum, "The total product price is wrong.");
     }
 }
