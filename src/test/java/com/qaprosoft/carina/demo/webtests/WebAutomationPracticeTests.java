@@ -9,13 +9,20 @@ import com.qaprosoft.carina.demo.webautomationpractice.components.HeaderMenu;
 import com.qaprosoft.carina.demo.webautomationpractice.pages.*;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class WebAutomationPracticeTests extends BaseTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Test(testName = "Verify home page")
     @MethodOwner(owner = "oleg-by")
@@ -200,14 +207,14 @@ public class WebAutomationPracticeTests extends BaseTest {
             }
         }
         List<Integer> indexes = new ArrayList<>(indexesSet);
-        System.out.println("List of indexes: " + indexes + ". Number of random products: " + randomNumberOfProducts);
+        LOGGER.info("List of random indexes: " + indexes + ". Number of random products: " + randomNumberOfProducts);
         List<Product> products = new ArrayList<>();
         CartPage cartPage = null;
         int n = 1;
         for (Integer index : indexes) {
             String someProductName = categoryPage.getProducts().get(index).getProductName();
             String someProductPrice = categoryPage.getProducts().get(index).getProductPrice();
-            System.out.println(n + ". " + someProductName + " - " + someProductPrice + ".");
+            LOGGER.info("The selected product N " + n + ": " + someProductName + " - " + someProductPrice + ".");
             ProductAddedPopUpPage popUpPage = categoryPage.getProducts().get(index).clickAddToCartBtn();
             Assert.assertTrue(popUpPage.isOpened(), "Pop Up page is not opened.");
             products.add(new Product(someProductName, someProductPrice));
@@ -230,7 +237,6 @@ public class WebAutomationPracticeTests extends BaseTest {
             String subPrice = StringUtils.substringBefore(cartPage.getProducts().get(j).getProductPrice()," ");
             Assert.assertEquals(subPrice, product.getPrice(), "The price of added product is wrong.");
             sum += Double.parseDouble(StringUtils.substring(product.getPrice(), 1));
-            //cartPage.getProducts().get(j).clickDeleteBtn();
             j++;
         }
         Assert.assertEquals(totalPrice, sum, "The total product price is wrong.");

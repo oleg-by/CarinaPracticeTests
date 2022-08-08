@@ -6,10 +6,15 @@ import com.qaprosoft.carina.demo.webautomationpractice.components.CartContainer;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 public class CartPage extends AutomationPracticePageBase {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @FindBy(xpath = "//h1[@id=\"cart_title\"]")
     private ExtendedWebElement title;

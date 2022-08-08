@@ -40,4 +40,12 @@ public class CartContainer extends AbstractUIObject {
         deleteBtn.click();
     }
 
+    @Override
+    public String toString() {
+        return "CartContainer{" +
+                "productName=" + productName.getText() +
+                ", productPrice=" + productPrice.getText() +
+                ", quantity=" + quantity.getText() +
+                '}';
+    }
 }

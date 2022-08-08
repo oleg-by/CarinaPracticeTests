@@ -18,4 +18,5 @@ public abstract class MyAccountSectionPage extends AutomationPracticePageBase {
     public boolean isOpened() {
         return title.isElementPresent();
     }
+
 }

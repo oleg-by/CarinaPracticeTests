@@ -18,4 +18,5 @@ public class NewProductsPage extends AutomationPracticePageBase {
     public boolean isOpened() {
         return title.isElementPresent();
     }
+
 }
