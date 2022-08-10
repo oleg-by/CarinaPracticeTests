@@ -1,4 +1,7 @@
 .gitignore
+docker-compose.yml
+Dockerfile
 /.idea/
 /target/
 /reports/
+/docker/

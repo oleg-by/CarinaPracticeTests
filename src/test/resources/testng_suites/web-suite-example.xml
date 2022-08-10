@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="tests" >
+    <listeners>
+        <listener class-name="com.zebrunner.agent.testng.listener.TestRunListener"></listener>
+    </listeners>
+    <test name="com.qaprosoft.carina.demo.webtests.WebAutomationPracticeTests">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.qaprosoft.carina.demo.webtests.WebAutomationPracticeTests">
+                <methods>
+                    <include name="testSearchEngine" />
+                    <include name="testSignUp" />
+                    <include name="testSignIn" />
+                    <include name="testSignOut" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="com.qaprosoft.carina.demo.webtests.SampleTest">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="com.qaprosoft.carina.demo.webtests.SampleTest">
+                <methods>
+                    <include name="testHomePage" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

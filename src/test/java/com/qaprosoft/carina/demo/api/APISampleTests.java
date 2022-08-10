@@ -6,7 +6,7 @@ import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.Test;
 
-public class APIMyTest implements IAbstractTest {
+public class APISampleTests implements IAbstractTest {
 
     @Test()
     @MethodOwner(owner = "oleg-by")
