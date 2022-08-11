@@ -8,7 +8,6 @@ import com.qaprosoft.carina.demo.webautomationpractice.pages.HomePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
 public class SampleTest extends BaseTest {
 
     @Test(testName = "Verify home page")

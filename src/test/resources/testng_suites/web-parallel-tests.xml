@@ -1,4 +1,4 @@
-<suite name="Test-method Suite" parallel="methods" thread-count="5" >dock
+<suite name="Test-method Suite" parallel="methods" thread-count="2" >dock
     <test name="Test-method test" group-by-instances="true">
         <classes>
             <class name="com.qaprosoft.carina.demo.webtests.WebAutomationPracticeTests" />
